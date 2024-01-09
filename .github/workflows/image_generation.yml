@@ -8,8 +8,6 @@ on:
 jobs:
   generate_artwork:
     runs-on: ubuntu-latest
-    with:
-      node-version: '18'
 
     steps:
       - name: Checkout code
