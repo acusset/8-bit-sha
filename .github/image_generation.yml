@@ -1,0 +1,36 @@
+name: Generate 8-bit Artwork
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name as needed
+
+jobs:
+  generate_artwork:
+    runs-on: ubuntu-latest  # You can change the OS if needed
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Specify your Python version here
+
+      - name: Install dependencies
+        run: |
+          pip install Pillow  # Install the required library
+
+      - name: Get Commit SHA
+        id: extract_sha
+        run: echo "::set-output name=commit_sha::$(git log --format=%H -1)"
+
+      - name: Run Python Script
+        run: |
+          python generate_artwork.py ${{ steps.extract_sha.outputs.commit_sha }}
+          - name: Save Artwork as Artifact
+            uses: actions/upload-artifact@v2
+            with:
+              name: generated-artwork
+              path: path/to/your/artwork.png  # Replace with the correct path and filename
