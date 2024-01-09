@@ -29,11 +29,9 @@ jobs:
       - name: Generate 8-bit Artwork
         run: |
           python generate_artwork.py ${{ steps.extract_sha.outputs.commit_sha }}
-          mkdir -p artwork
-          mv *.png artwork/
 
       - name: Archive Artwork as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: generated-artwork
-          path: artwork
+          path: ${{ steps.extract_sha.outputs.commit_sha }}.png
