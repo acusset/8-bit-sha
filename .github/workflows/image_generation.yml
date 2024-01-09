@@ -29,8 +29,9 @@ jobs:
       - name: Run Python Script
         run: |
           python generate_artwork.py ${{ steps.extract_sha.outputs.commit_sha }}
-          - name: Save Artwork as Artifact
-            uses: actions/upload-artifact@v2
-            with:
-              name: generated-artwork
-              path: path/to/your/artwork.png  # Replace with the correct path and filename
+
+      - name: Save Artwork as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: generated-artwork
+          path: path/to/your/artwork.png  # Replace with the correct path and filename
