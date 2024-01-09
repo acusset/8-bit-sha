@@ -1,3 +1,5 @@
+import sys
+
 from PIL import Image
 
 
@@ -37,3 +39,13 @@ def generate_8bit_art(sha):
             pixels[j, i] = pixel_color
 
     return image
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python generate_artwork.py <commit_sha>")
+        sys.exit(1)
+
+    commit_sha = sys.argv[1]
+
+    artwork = generate_8bit_art(commit_sha)
