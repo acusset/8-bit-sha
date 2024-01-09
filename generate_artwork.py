@@ -20,25 +20,28 @@ def generate_8bit_art(sha):
 
     # Define a color map based on binary patterns
     color_map = {
-        '000': (0, 0, 0),  # Black
+        '000': (0, 0, 0),        # Black
         '001': (255, 255, 255),  # White
-        '010': (255, 0, 0),  # Red
-        '011': (0, 255, 0),  # Green
-        '100': (0, 0, 255),  # Blue
-        '101': (255, 255, 0),  # Yellow
-        '110': (255, 0, 255),  # Magenta
-        '111': (0, 255, 255),  # Cyan
+        '010': (255, 0, 0),      # Red
+        '011': (0, 255, 0),      # Green
+        '100': (0, 0, 255),      # Blue
+        '101': (255, 255, 0),    # Yellow
+        '110': (255, 0, 255),    # Magenta
+        '111': (0, 255, 255),    # Cyan
         # Add more color mappings based on your preference and patterns
     }
 
     # Fill pixels based on the binary sequence
-    for i in range(size):
-        for j in range(size):
-            index = i * size + j
-            pixel_color = color_map[binary[index * 3: index * 3 + 3]]  # Using every 3 bits for color
-            pixels[j, i] = pixel_color
+    groups = len(binary) // 3
+    for i in range(groups):
+        pixel_color = color_map[binary[i * 3: i * 3 + 3]]
+        pixels[i % size, i // size] = pixel_color
 
-    return image
+    # Fill remaining pixels with white color
+    for i in range(groups, size * size):
+        pixels[i % size, i // size] = (255, 255, 255)  # White color
+
+    image.save(sha + '.png')
 
 
 if __name__ == "__main__":
@@ -48,4 +51,4 @@ if __name__ == "__main__":
 
     commit_sha = sys.argv[1]
 
-    artwork = generate_8bit_art(commit_sha)
+    generate_8bit_art(commit_sha)

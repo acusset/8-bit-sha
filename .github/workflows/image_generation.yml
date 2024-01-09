@@ -26,12 +26,14 @@ jobs:
         id: extract_sha
         run: echo "::set-output name=commit_sha::$(git log --format=%H -1)"
 
-      - name: Run Python Script
+      - name: Generate 8-bit Artwork
         run: |
           python generate_artwork.py ${{ steps.extract_sha.outputs.commit_sha }}
+          mkdir -p artwork
+          mv *.png artwork/
 
-      - name: Save Artwork as Artifact
+      - name: Archive Artwork as Artifact
         uses: actions/upload-artifact@v2
         with:
           name: generated-artwork
-          path: path/to/your/artwork.png  # Replace with the correct path and filename
+          path: artwork
