@@ -3,11 +3,13 @@ name: Generate 8-bit Artwork
 on:
   push:
     branches:
-      - main  # Adjust the branch name as needed
+      - main
 
 jobs:
   generate_artwork:
-    runs-on: ubuntu-latest  # You can change the OS if needed
+    runs-on: ubuntu-latest
+    with:
+      node-version: '18'
 
     steps:
       - name: Checkout code
@@ -16,7 +18,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # Specify your Python version here
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
@@ -24,7 +26,7 @@ jobs:
 
       - name: Get Commit SHA
         id: extract_sha
-        run: echo "::set-output name=commit_sha::$(git log --format=%H -1)"
+        run: echo "commit_sha=$(git log --format=%H -1)" >> $GITHUB_OUTPUT
 
       - name: Generate 8-bit Artwork
         run: |
